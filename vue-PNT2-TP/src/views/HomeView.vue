@@ -2,34 +2,18 @@
   <div class="max-w-7xl mx-auto text-center">
     <!-- Hero Section -->
     <section
-      class="rounded-lg shadow-lg p-8 mb-10 bg-hero-background bg-center h-"
+      class="rounded-lg shadow-lg p-8 mb-10 bg-hero-background bg-center h-80 flex flex-col items-center justify-center"
     >
-      <h1 class="text-4xl font-bold text-primary mb-4">
-        ¡Bienvenido a Biblioteca Circular!
+      <h1 class="text-4xl font-bold mb-4 text-primary">
+        ¡Bienvenido a la Biblioteca Circular!
       </h1>
-      <p class="text-lg text-gray-600 mb-6">
+      <p class="mb-6 text-primary text-xl">
         Encuentra, comparte y descubre libros con una comunidad de apasionados
         por la lectura.
       </p>
-      <div class="space-x-4">
-        <RouterLink
-          to="/books"
-          class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark"
-        >
-          Ver Libros
-        </RouterLink>
-        <RouterLink
-          to="/users"
-          class="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-secondary-dark"
-        >
-          Explorar Usuarios
-        </RouterLink>
-      </div>
     </section>
 
-    <!-- Feature Cards Section -->
     <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Card 1: Discover Books -->
       <div
         class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
       >
