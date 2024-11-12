@@ -36,7 +36,26 @@
         </select>
       </div>
 
-      <!-- Filtro de Orden -->
+      <!-- Filtro de Género -->
+      <div>
+        <label for="genre-filter" class="block text-sm text-gray-600"
+          >Género</label
+        >
+        <select
+          id="genre-filter"
+          v-model="filters.genre"
+          class="p-2 border border-gray-300 rounded-lg"
+        >
+          <option value="">Todos</option>
+          <option value="Ficción">Ficción</option>
+          <option value="Poesía">Poesía</option>
+          <option value="Novela">Novela</option>
+          <option value="Ensayo">Ensayo</option>
+          <option value="Cuento">Cuento</option>
+        </select>
+      </div>
+
+      <!-- Dirección de Orden (Ascendente predeterminado) -->
       <div>
         <label for="order-direction" class="block text-sm text-gray-600"
           >Orden</label
@@ -76,7 +95,16 @@
         </p>
       </li>
     </ul>
-    <p v-else class="text-gray-500">Cargando libros...</p>
+
+    <!-- Empty States based on filters -->
+    <p v-else class="text-gray-500">
+      <!-- Message for no books after applying filters -->
+      <span v-if="appliedFilters">
+        No se encontraron libros que coincidan con los filtros seleccionados.
+      </span>
+      <!-- Message for when no books at all -->
+      <span v-else> Cargando libros... </span>
+    </p>
   </div>
 </template>
 
@@ -90,11 +118,20 @@ export default {
       filters: {
         condition: "",
         available: "",
-        sort: "alphabetical",
+        genre: "",
+        orderDirection: "asc", // Dirección ascendente predeterminada
       },
     };
   },
   computed: {
+    // Computed property to determine if any filters are applied
+    appliedFilters() {
+      return (
+        this.filters.condition ||
+        this.filters.available !== "" ||
+        this.filters.genre
+      );
+    },
     filteredBooks() {
       let booksToFilter = [...this.books];
 
@@ -113,16 +150,21 @@ export default {
         );
       }
 
-      // Ordenar alfabéticamente
-      if (this.filters.sort === "alphabetical") {
-        booksToFilter.sort((a, b) => {
-          if (this.filters.orderDirection === "asc") {
-            return a.title.localeCompare(b.title);
-          } else {
-            return b.title.localeCompare(a.title);
-          }
-        });
+      // Filtrar por género
+      if (this.filters.genre) {
+        booksToFilter = booksToFilter.filter(
+          (book) => book.genre === this.filters.genre
+        );
       }
+
+      // Ordenar alfabéticamente en base a la dirección seleccionada
+      booksToFilter.sort((a, b) => {
+        if (this.filters.orderDirection === "asc") {
+          return a.title.localeCompare(b.title);
+        } else {
+          return b.title.localeCompare(a.title);
+        }
+      });
 
       return booksToFilter;
     },

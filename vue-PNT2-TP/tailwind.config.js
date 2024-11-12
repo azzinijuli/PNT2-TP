@@ -10,6 +10,10 @@ module.exports = {
         accent1: "#B9848C",
         accent2: "#806491",
       },
+      backgroundImage: {
+        "hero-background":
+          "url(/public/library-book.svg), linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(22, 43, 76, 0.4))",
+      },
     },
   },
   plugins: [],

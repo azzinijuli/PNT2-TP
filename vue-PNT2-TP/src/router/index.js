@@ -1,10 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "../views/HomeView.vue";
 import Books from "../views/Books.vue";
 import Users from "../views/Users.vue";
 import BookForm from "../views/BookForm.vue";
 import Profile from "../views/Profile.vue";
 
 const routes = [
+  {
+    path: "/",
+    name: "Home",
+    component: HomeView,
+  },
   {
     path: "/books",
     name: "Books",
