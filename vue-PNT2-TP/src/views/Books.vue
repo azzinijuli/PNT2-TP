@@ -72,26 +72,41 @@
     </div>
 
     <!-- Lista de Libros -->
-    <ul v-if="filteredBooks.length">
+    <ul
+      v-if="filteredBooks.length"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
       <li
         v-for="book in filteredBooks"
         :key="book.id"
-        class="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200"
+        class="bg-white rounded-lg shadow-lg p-6 transform hover:scale-102 hover:shadow-2xl transition-transform"
       >
-        <div class="mb-2">
-          <h3 class="text-lg font-bold text-secondary">{{ book.title }}</h3>
-          <p class="text-sm text-gray-600">
-            Autor: {{ book.author }} (Estado: {{ book.condition }})
+        <div class="mb-4">
+          <!-- Título del libro -->
+          <h3 class="text-xl font-semibold text-primary mb-2">
+            {{ book.title }}
+          </h3>
+
+          <!-- Autor y estado del libro -->
+          <p class="text-sm text-gray-500 mb-2">
+            Autor: <span class="font-medium">{{ book.author }}</span>
+            &nbsp;
+            <span class="italic">(Estado: {{ book.condition }})</span>
           </p>
-          <p class="text-sm text-gray-600">{{ book.description }}</p>
+
+          <!-- Descripción del libro -->
+          <p class="text-gray-600 line-clamp-3">{{ book.description }}</p>
         </div>
+
+        <!-- Información del propietario -->
         <p class="text-sm text-gray-600">
           Propietario:
           <router-link
             :to="`/profile/${book.userId}`"
-            class="text-tertiary hover:text-primary"
-            >Ver Perfil</router-link
+            class="text-tertiary font-medium hover:underline hover:text-primary transition"
           >
+            Ver Perfil
+          </router-link>
         </p>
       </li>
     </ul>
