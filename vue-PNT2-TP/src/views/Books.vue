@@ -101,12 +101,12 @@
         <!-- Información del propietario -->
         <p class="text-sm text-gray-600">
           Propietario:
-          <router-link
+          <RouterLink
             :to="`/profile/${book.userId}`"
             class="text-tertiary font-medium hover:underline hover:text-primary transition"
           >
             Ver Perfil
-          </router-link>
+          </RouterLink>
         </p>
       </li>
     </ul>
@@ -125,6 +125,7 @@
 
 <script>
 import axios from "axios";
+import { RouterLink } from "vue-router";
 
 export default {
   data() {

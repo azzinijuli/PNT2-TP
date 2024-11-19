@@ -4,7 +4,7 @@ import Books from "../views/Books.vue";
 import Users from "../views/Users.vue";
 import BookForm from "../views/BookForm.vue";
 import Profile from "../views/Profile.vue";
-import AdminDasboard from "../views/AdminDasboard.vue";
+import AdminDashboard from "../views/AdminDashboard.vue";
 import Login from "../views/Login.vue";
 import { useAuthStore } from "../store";
 
@@ -42,7 +42,7 @@ const routes = [
   {
     path: "/admin",
     name: "Admin",
-    component: AdminDasboard,
+    component: AdminDashboard,
     meta: { requireAuth: true, role: "admin" },
   },
   {

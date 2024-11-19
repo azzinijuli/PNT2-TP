@@ -4,6 +4,7 @@
       {{ isEdit ? "Editar Libro" : "Agregar Nuevo Libro" }}
     </h1>
     <form @submit.prevent="saveBook">
+      <!-- Campo para el título -->
       <div class="mb-4">
         <label class="block text-sm font-medium text-secondary">Título</label>
         <input
@@ -13,6 +14,8 @@
           required
         />
       </div>
+
+      <!-- Campo para el autor -->
       <div class="mb-4">
         <label class="block text-sm font-medium text-secondary">Autor</label>
         <input
@@ -22,6 +25,8 @@
           required
         />
       </div>
+
+      <!-- Campo para la descripción -->
       <div class="mb-4">
         <label class="block text-sm font-medium text-secondary"
           >Descripción</label
@@ -32,6 +37,8 @@
           required
         ></textarea>
       </div>
+
+      <!-- Campo para el género -->
       <div class="mb-4">
         <label class="block text-sm font-medium text-secondary">Género</label>
         <input
@@ -41,10 +48,14 @@
           required
         />
       </div>
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-secondary">Estado</label>
+
+      <!-- Campo para la condición (renombrado de 'status' a 'condition') -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-secondary"
+          >Condición</label
+        >
         <select
-          v-model="book.status"
+          v-model="book.condition"
           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
           required
         >
@@ -54,6 +65,19 @@
           <option value="deteriorado">Deteriorado</option>
         </select>
       </div>
+
+      <!-- Campo para comentarios del usuario (userComments) -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-secondary"
+          >Comentarios del Usuario</label
+        >
+        <textarea
+          v-model="book.userComments"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+        ></textarea>
+      </div>
+
+      <!-- Botón de submit -->
       <button
         type="submit"
         class="w-full bg-tertiary text-white py-2 rounded-md hover:bg-primary focus:ring-4 focus:ring-primary focus:ring-opacity-50 transition"
@@ -67,6 +91,7 @@
 <script>
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
+import { useAuthStore } from "../store";
 
 export default {
   data() {
@@ -76,7 +101,9 @@ export default {
         author: "",
         description: "",
         genre: "",
-        status: "",
+        condition: "",
+        userComments: "",
+        userId: null,
       },
       isEdit: false,
     };
@@ -84,13 +111,17 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
-    return { route, router };
+    const authStore = useAuthStore();
+    return { route, router, authStore };
   },
   mounted() {
     const bookId = this.route.params.id;
     if (bookId) {
       this.isEdit = true;
       this.fetchBook(bookId);
+    } else {
+      // si es un nuevo libro, asignar el userId al usuario autenticado
+      this.book.userId = this.authStore.user.id;
     }
   },
   methods: {
@@ -100,12 +131,17 @@ export default {
           `https://67183d04b910c6a6e02b6eae.mockapi.io/api/bibliotecacircular/books/${id}`
         );
         this.book = response.data;
+        this.book.condition = this.book.status;
+        delete this.book.status;
       } catch (error) {
         console.error("Error al obtener el libro:", error);
       }
     },
     async saveBook() {
       try {
+        // asignar el userId del usuario autenticado
+        this.book.userId = this.authStore.user.id;
+
         if (this.isEdit) {
           await axios.put(
             `https://67183d04b910c6a6e02b6eae.mockapi.io/api/bibliotecacircular/books/${this.route.params.id}`,

@@ -49,7 +49,9 @@
           ¿Tenés libros que ya no lees? Subilos a nuestra plataforma y permití a
           otros disfrutarlos.
         </p>
-        <RouterLink to="/books" class="text-secondary hover:text-secondary-dark"
+        <RouterLink
+          to="/books/add"
+          class="text-secondary hover:text-secondary-dark"
           >Subir Libros &rarr;</RouterLink
         >
       </div>
