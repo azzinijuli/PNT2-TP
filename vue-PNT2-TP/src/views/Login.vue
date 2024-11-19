@@ -40,14 +40,22 @@ const login = async () => {
   await authStore.login(email.value, password.value);
 
   if (authStore.isAuthenticated) {
-    router.push("/"); // Redirigir a la página de inicio si la autenticación es exitosa
+    // Verificar si el rol es admin y redirigir a la página correspondiente
+    if (authStore.user.role === "admin") {
+      router.push("/admin");
+    } else {
+      router.push("/"); // Redirigir a la página de inicio para usuarios no admins
+    }
   }
 };
 
-// Verificar si el usuario ya está autenticado al montar el componente
 onMounted(() => {
   if (authStore.isAuthenticated) {
-    router.push("/"); // Redirigir a /home si ya está autenticado
+    if (authStore.user.role === "admin") {
+      router.push("/admin");
+    } else {
+      router.push("/");
+    }
   }
 });
 </script>
